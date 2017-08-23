@@ -48,7 +48,7 @@ def format_value(key, dataset):
     elif key == 'mem_fragmentation_ratio':
         value = float(dataset[key])
     else:
-        value = int(dataset[key])
+        value = int(float(dataset[key]))
 
     return value
 
@@ -65,7 +65,6 @@ def main():
 
     metric = "redis"
     endpoint = hostname
-    tags = 'port=%s' % '6379'
 
     monit_keys = [
         ('connected_clients', 'GAUGE'),
@@ -80,6 +79,15 @@ def main():
         ('keyspace_hits', 'COUNTER'),
         ('keyspace_misses', 'COUNTER'),
         ('keyspace_hit_ratio', 'GAUGE'),
+        ('used_cpu_sys', 'GAUGE'),
+        ('used_cpu_user', 'GAUGE'),
+        ('used_cpu_sys_children', 'GAUGE'),
+        ('used_cpu_user_children', 'GAUGE'),
+        ('db5', 'GAUGE'),
+        ('db6', 'GAUGE'),
+        ('total_connections_received', 'GAUGE'),
+        ('client_longest_output_list', 'GAUGE'),
+        ('client_biggest_input_buf', 'GAUGE')
     ]
 
     datalst = []
@@ -97,7 +105,7 @@ def main():
             'Step': step,
             'Value': value,
             'CounterType': vtype,
-            'TAGS': tags
+            'TAGS': ''
         }
         datalst.append(item)
 
